@@ -73,6 +73,7 @@ mod networkmanager;
 pub mod configs;
 pub mod connection;
 pub mod devices;
+pub mod settings;
 pub mod types;
 
 pub use crate::errors::Error;

@@ -2,6 +2,7 @@ use crate::dbus_api::DBusAccessor;
 use crate::devices::Device;
 use crate::errors::Error;
 use crate::gen::OrgFreedesktopNetworkManager;
+use crate::settings;
 use crate::types::ReloadFlag;
 use dbus::blocking::Connection;
 
@@ -9,6 +10,7 @@ use num_traits::ToPrimitive;
 
 const NETWORK_MANAGER_BUS: &str = "org.freedesktop.NetworkManager";
 const NETWORK_MANAGER_PATH: &str = "/org/freedesktop/NetworkManager";
+const NETWORK_MANAGER_SETTINGS_PATH: &str = "/org/freedesktop/NetworkManager/Settings";
 
 pub struct NetworkManager<'a> {
     dbus_accessor: DBusAccessor<'a>,
@@ -43,6 +45,39 @@ impl<'a> NetworkManager<'a> {
             &self.dbus_accessor.bus,
             &path,
         ))
+    }
+
+    pub fn get_settings(&self) -> settings::Settings<'_> {
+        settings::Settings::new(DBusAccessor::new(
+            self.dbus_accessor.connection,
+            &self.dbus_accessor.bus,
+            NETWORK_MANAGER_SETTINGS_PATH,
+        ))
+    }
+
+    pub fn path_to_setting_connection(
+        &self,
+        path: dbus::Path<'_>,
+    ) -> Result<settings::Connection<'_>, Error> {
+        Ok(settings::Connection::new(DBusAccessor::new(
+            self.dbus_accessor.connection,
+            &self.dbus_accessor.bus,
+            &path,
+        )))
+    }
+
+    pub fn get_all_setting_connections(&self) -> Result<Vec<settings::Connection<'_>>, Error> {
+        let settings = self.get_settings();
+        let conn_paths = settings.list_connections()?;
+        let mut res = Vec::new();
+        for path in conn_paths {
+            res.push(settings::Connection::new(DBusAccessor::new(
+                self.dbus_accessor.connection,
+                &self.dbus_accessor.bus,
+                &path,
+            )));
+        }
+        Ok(res)
     }
 
     /// Reloads NetworkManager by the given scope
