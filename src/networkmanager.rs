@@ -121,4 +121,13 @@ impl<'a> NetworkManager<'a> {
     pub fn startup(&self) -> Result<bool, Error> {
         Ok(proxy!(self).startup()?)
     }
+
+    pub fn activate_connection(
+        &self,
+        connection: dbus::Path,
+        device: dbus::Path,
+        specific_object: dbus::Path,
+    ) -> Result<dbus::Path<'static>, dbus::Error>  {
+        Ok(proxy!(self).activate_connection(connection,device,specific_object)?)
+    }
 }
