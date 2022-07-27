@@ -56,7 +56,7 @@ impl<'a> Connection<'a> {
     }
     pub fn update2(
         &self,
-        settings: HashMap<&str, HashMap<&str, arg::Variant<Box<dyn arg::RefArg>>>>,
+        settings: HashMap<String, HashMap<String, arg::Variant<Box<dyn arg::RefArg>>>>,
         flags: u32,
         args: HashMap<&str, arg::Variant<Box<dyn arg::RefArg>>>,
     ) -> Result<HashMap<String, arg::Variant<Box<dyn arg::RefArg + 'static>>>, dbus::Error> {

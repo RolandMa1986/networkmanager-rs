@@ -42,8 +42,8 @@ pub trait OrgFreedesktopNetworkManagerSettingsConnection {
     fn update2(
         &self,
         settings: ::std::collections::HashMap<
-            &str,
-            ::std::collections::HashMap<&str, arg::Variant<Box<dyn arg::RefArg>>>,
+        String,
+            ::std::collections::HashMap<String, arg::Variant<Box<dyn arg::RefArg>>>,
         >,
         flags: u32,
         args: ::std::collections::HashMap<&str, arg::Variant<Box<dyn arg::RefArg>>>,
@@ -169,8 +169,8 @@ impl<'a, C: ::std::ops::Deref<Target = blocking::Connection>>
     fn update2(
         &self,
         settings: ::std::collections::HashMap<
-            &str,
-            ::std::collections::HashMap<&str, arg::Variant<Box<dyn arg::RefArg>>>,
+           String,
+            ::std::collections::HashMap<String, arg::Variant<Box<dyn arg::RefArg>>>,
         >,
         flags: u32,
         args: ::std::collections::HashMap<&str, arg::Variant<Box<dyn arg::RefArg>>>,
