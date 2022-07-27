@@ -105,6 +105,10 @@ impl<'a> NetworkManager<'a> {
         self.path_to_device(dev_path)
     }
 
+    pub fn get_device_path_by_ip_iface(&self, iface: &str) -> Result<dbus::Path<'static>, dbus::Error> {
+        proxy!(self).get_device_by_ip_iface(iface)
+    }
+
     pub fn networking_enabled(&self) -> Result<bool, Error> {
         Ok(proxy!(self).networking_enabled()?)
     }
